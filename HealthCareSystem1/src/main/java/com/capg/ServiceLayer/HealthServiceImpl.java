@@ -18,26 +18,36 @@ public class HealthServiceImpl implements HealthService{
 		flag=testName.matches("[a-zA-Z]+");
 		return flag;
 		}
-	public boolean addCenter(DiagnosticCenter center) throws HealthException { //6
-		String name = center.getCenterName(); //get values from bean
+public boolean addCenter(DiagnosticCenter center) throws HealthException { //6
+		String name = center.getCenterName(); 
 		boolean flag =name.matches("[a-zA-Z]+");
 		if(!flag)
-		{
-		throw new HealthException("Center name should contain only alphabets");
+		{	
+throw new HealthException("Center name should contain only alphabets");	
 		}
+		else
+		{
 		Random random = new Random();         //to generate random numbers
 		int centerid = random.nextInt(100);  
 		String s=Integer.toString(centerid);   //toString to convert Integer to String
 		center.setCenterId(s);                 //set values into bean 7
 		healthDao.addCenter(center);           //call method using reference  8
-		return false;
 	}
+		return flag;
+		}
 	public boolean removeCenter(DiagnosticCenter center) throws HealthException {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 	public String addTest(String centerName, Test test) throws HealthException {  
+		
+		/*String name1 = dc.getCenterName(); //get values from bean
+		boolean flag1 =name.matches("[a-zA-Z]+");
+		if(!flag1)
+		{
+		throw new HealthException("Center name should contain only alphabets");
+		}*/
+		
 		String name = test.getTestName();
 		boolean flag = validateName(name); //call validate method
 		if(!flag)
@@ -50,7 +60,6 @@ public class HealthServiceImpl implements HealthService{
 		String sid=healthDao.addTest(centerName,test).toString();
 		return sid;
 	}
-
 	public boolean removeTest(Test test) throws HealthException {
 		String name = test.getTestName();
 		boolean flag = validateName(name);
@@ -69,6 +78,10 @@ public class HealthServiceImpl implements HealthService{
 	}
 	public List<Test> displaytest() {
 		return healthDao.displaytest();
+	}
+	public void displayTest(Test test) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -1,12 +1,9 @@
 package com.capg.DAOLayer;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 import com.Exception.HealthException;
@@ -19,9 +16,9 @@ public class HealthDaoImpl implements HealthDao {
 	private	HashMap<String,Appointment> appointmentMap;
 		public HealthDaoImpl()
 		{
-			centerMap=new HashMap<String,DiagnosticCenter>();
-			DiagnosticCenter center= new DiagnosticCenter("tesla","8001", null,null);
-			List<Test>list=new ArrayList<Test>();
+centerMap=new HashMap<String,DiagnosticCenter>();
+DiagnosticCenter center= new DiagnosticCenter("tesla","8001", null,null);
+List<Test>list=new ArrayList<Test>();
 			Test test=new Test();
 			test.setTestId("1000");
 			test.setTestName("blood test");
@@ -29,26 +26,32 @@ public class HealthDaoImpl implements HealthDao {
 			Test test1=new Test();
 			test1.setTestId("1001");
 			test1.setTestName("blood group");
-			list.add(test1);
+			list.add(test);
 			Test test2=new Test();
 			test2.setTestId("1002");
 			test2.setTestName("blood pressure");
 			list.add(test2);
-			center.setListOfTests(list);
+		center.setListOfTests(list);
+			
 			centerMap.put(center.getCenterName(), center);
 			}
 	public boolean addCenter(DiagnosticCenter center) throws HealthException {  //9
 		{
 			if(centerMap.containsKey(center.getCenterName()))//10 to check center is already exist or not 
-			{
+			try {
 				throw new HealthException("center already exist");
+			}
+			catch(HealthException e)
+			{
+				e.printStackTrace();
 			}
 			else
 			{
 				centerMap.put(center.getCenterId(), center);
 		}
-	return true; 
 		}
+	return true; 
+		
 	}
 	public boolean removeCenter(DiagnosticCenter center) throws HealthException {
 		return false;
@@ -91,8 +94,8 @@ Collection<DiagnosticCenter> dc= list.stream().filter(p->p.getCenterName().equal
 		return list;
 	}
 	@Override
-	public List<Test> displaytest(){
-		
+	public List<Test> displaytest() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }
