@@ -14,26 +14,28 @@ import com.capg.DTOLayer.Test;
 public class HealthDaoImpl implements HealthDao {
 	HashMap<String,DiagnosticCenter>centerMap=new HashMap<String,DiagnosticCenter>();
 	Map<String,Test> map=new HashMap<String,Test> ();
+	DiagnosticCenter dc= new DiagnosticCenter();
 		public HealthDaoImpl()
 		{
+			
             DiagnosticCenter center= new DiagnosticCenter("care","8795",null,null);
             List<Test>list=new ArrayList<Test>();
 			Test test=new Test();
 			test.setTestId("1000");
-			test.setTestName("blood test");
+			test.setTestName("bloodtest");
 			list.add(test);
 			Test test1=new Test();
 			test1.setTestId("1001");
-			test1.setTestName("blood group");
+			test1.setTestName("bloodsugar");
 			list.add(test);
 			Test test2=new Test();
 			test2.setTestId("1002");
-			test2.setTestName("blood pressure");
+			test2.setTestName("bloodpressure");
 			list.add(test2);
 			center.setListOfTests(list);
 			centerMap.put(center.getCenterName(),center);
 			}
-	public boolean addCenter(DiagnosticCenter center) throws HealthException {  //9
+	public boolean addCenter(DiagnosticCenter center) throws HealthException {  
 		{
 			if(centerMap.containsKey(center.getCenterName()))
 			try {
@@ -58,28 +60,15 @@ public class HealthDaoImpl implements HealthDao {
 	return true; 
 	}
 	public String addTest(String centerName, Test test) throws HealthException { 
-				Set<String> s=centerMap.keySet();
-				String s1=test.getTestName();
-				for (String i :s) {
-					boolean flag =s1.equals(i);
-					if(flag)
-					{
-					throw new HealthException("test already exist");
-					}
-					Collection<DiagnosticCenter> list=centerMap.values();
-Collection<DiagnosticCenter> dc= list.stream().filter(p->p.getCenterName().equals(centerName)).collect(Collectors.toList());
-				    List<DiagnosticCenter>  ldc = new ArrayList<DiagnosticCenter>(dc);
-				   //ldc.get(0).getListOfTests().add(test);
-				    
-				    Random random = new Random();
-					int id = random.nextInt(100)+1000;
-					test.setTestId(id+"");
-					//String sid=healthDao.addTest(centerName,test).toString();
-				    
-				}
-				return test.getTestId();
-				
-				}
+		boolean flag = map.containsKey(test.getTestId()) ;
+		if(flag==true)
+		{
+			throw new HealthException("ID already exist");
+		}
+		else
+			map.put(test.getTestId(), test);
+		return test.getTestId();
+		}
 	public List<DiagnosticCenter> displaycenter() { 
 	Collection<DiagnosticCenter> col=centerMap.values();
 	List<DiagnosticCenter> list=new ArrayList<DiagnosticCenter>(col);
